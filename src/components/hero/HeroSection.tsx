@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import GeometricCanvas from "./GeometricCanvas";
+import Image from "next/image";
 import FloatingMaps from "./FloatingMaps";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -32,7 +32,14 @@ export default function HeroSection({ locale, maps, dict }: HeroProps) {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <GeometricCanvas />
+      <Image
+        src="/images/IMG_7488.jpg"
+        alt=""
+        fill
+        priority
+        className="object-cover opacity-30"
+        sizes="100vw"
+      />
 
       {/* Floating map images */}
       <FloatingMaps locale={locale} maps={maps} />
