@@ -3,7 +3,8 @@
     "home": "Home",
     "portfolio": "Portfolio",
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "maps": "Maps"
   },
   "hero": {
     "greeting": "",
@@ -41,6 +42,11 @@
       "success": "Message sent successfully. Thank you!",
       "error": "Failed to send. Please try again."
     }
+  },
+  "maps": {
+    "title": "Maps",
+    "subtitle": "Orienteering Maps",
+    "backToHome": "Back to Home"
   },
   "footer": {
     "rights": "All rights reserved."

@@ -3,7 +3,8 @@
     "home": "ホーム",
     "portfolio": "ポートフォリオ",
     "blog": "ブログ",
-    "contact": "お問い合わせ"
+    "contact": "お問い合わせ",
+    "maps": "地図"
   },
   "hero": {
     "greeting": "",
@@ -41,6 +42,11 @@
       "success": "メッセージを送信しました。ありがとうございます！",
       "error": "送信に失敗しました。もう一度お試しください。"
     }
+  },
+  "maps": {
+    "title": "地図",
+    "subtitle": "オリエンテーリングマップ",
+    "backToHome": "ホームに戻る"
   },
   "footer": {
     "rights": "All rights reserved."

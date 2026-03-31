@@ -2,6 +2,7 @@ import { locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import HeroSection from "@/components/hero/HeroSection";
 import PageTransition from "@/components/ui/PageTransition";
+import mapsData from "@/data/maps.json";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -17,7 +18,7 @@ export default async function HomePage({
 
   return (
     <PageTransition>
-      <HeroSection locale={locale as Locale} dict={dict} />
+      <HeroSection locale={locale as Locale} maps={mapsData} dict={dict} />
     </PageTransition>
   );
 }

@@ -3,10 +3,18 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import GeometricCanvas from "./GeometricCanvas";
+import FloatingMaps from "./FloatingMaps";
 import type { Locale } from "@/lib/i18n/config";
+
+interface MapData {
+  id: string;
+  image: string;
+  title: Record<string, string>;
+}
 
 interface HeroProps {
   locale: Locale;
+  maps: MapData[];
   dict: {
     hero: {
       greeting: string;
@@ -18,13 +26,16 @@ interface HeroProps {
   };
 }
 
-export default function HeroSection({ locale, dict }: HeroProps) {
+export default function HeroSection({ locale, maps, dict }: HeroProps) {
   // Text appears after the wind burst (~2.5s)
   const textDelay = 2.0;
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <GeometricCanvas />
+
+      {/* Floating map images */}
+      <FloatingMaps locale={locale} maps={maps} />
 
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg/30 to-bg pointer-events-none" />

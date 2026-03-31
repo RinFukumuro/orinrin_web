@@ -1,0 +1,38 @@
+[
+  {
+    "id": "map1",
+    "image": "/images/maps/map1.jpg",
+    "title": {
+      "ja": "地図タイトル 1",
+      "en": "Map Title 1"
+    },
+    "description": {
+      "ja": "地図の説明文をここに記載します。",
+      "en": "Description of this map goes here."
+    }
+  },
+  {
+    "id": "map2",
+    "image": "/images/maps/map2.jpg",
+    "title": {
+      "ja": "地図タイトル 2",
+      "en": "Map Title 2"
+    },
+    "description": {
+      "ja": "地図の説明文をここに記載します。",
+      "en": "Description of this map goes here."
+    }
+  },
+  {
+    "id": "map3",
+    "image": "/images/maps/map3.jpg",
+    "title": {
+      "ja": "地図タイトル 3",
+      "en": "Map Title 3"
+    },
+    "description": {
+      "ja": "地図の説明文をここに記載します。",
+      "en": "Description of this map goes here."
+    }
+  }
+]
