@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
@@ -20,12 +21,22 @@ export default function AutoScrollGallery({
   maps,
   locale,
 }: AutoScrollGalleryProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
   // Duplicate items for seamless loop
   const items = [...maps, ...maps, ...maps];
 
   return (
-    <div className="overflow-hidden">
-      <div className="flex gap-6 animate-scroll hover:[animation-play-state:paused]">
+    <div
+      ref={scrollRef}
+      className="overflow-x-auto scrollbar-hide"
+      onMouseEnter={() => {
+        scrollRef.current?.classList.add("pause-scroll");
+      }}
+      onMouseLeave={() => {
+        scrollRef.current?.classList.remove("pause-scroll");
+      }}
+    >
+      <div className="flex gap-6 animate-scroll w-max">
         {items.map((map, i) => (
           <Link
             key={`${map.id}-${i}`}

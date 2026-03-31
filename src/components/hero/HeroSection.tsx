@@ -28,8 +28,8 @@ interface HeroProps {
   };
 }
 
-function Typewriter({ text, delay, className }: { text: string; delay: number; className?: string }) {
-  const [displayed, setDisplayed] = useState("");
+function TypewriterBounce({ text, delay, className }: { text: string; delay: number; className?: string }) {
+  const [count, setCount] = useState(0);
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
@@ -39,19 +39,36 @@ function Typewriter({ text, delay, className }: { text: string; delay: number; c
 
   useEffect(() => {
     if (!started) return;
-    if (displayed.length >= text.length) return;
+    if (count >= text.length) return;
 
     const timer = setTimeout(() => {
-      setDisplayed(text.slice(0, displayed.length + 1));
+      setCount((c) => c + 1);
     }, 120);
 
     return () => clearTimeout(timer);
-  }, [started, displayed, text]);
+  }, [started, count, text]);
+
+  const chars = text.slice(0, count).split("");
 
   return (
     <span className={className}>
-      {displayed}
-      {started && displayed.length < text.length && (
+      {chars.map((char, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0, y: -30, scale: 1.4 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 400,
+            damping: 12,
+            mass: 0.8,
+          }}
+          className="inline-block"
+        >
+          {char}
+        </motion.span>
+      ))}
+      {started && count < text.length && (
         <motion.span
           animate={{ opacity: [1, 0] }}
           transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
@@ -129,7 +146,7 @@ export default function HeroSection({ locale, maps, dict }: HeroProps) {
 
         {/* Phase 3: Name types in one character at a time */}
         <h1 className="text-6xl sm:text-8xl font-bold mb-2 min-h-[1.2em]">
-          <Typewriter
+          <TypewriterBounce
             text={dict.hero.name}
             delay={nameStart}
             className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-emerald-500 bg-clip-text text-transparent"
