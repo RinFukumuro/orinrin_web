@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import GeometricCanvas from "./GeometricCanvas";
@@ -27,59 +28,128 @@ interface HeroProps {
   };
 }
 
-export default function HeroSection({ locale, maps, dict }: HeroProps) {
-  // Text appears after the wind burst (~2.5s)
-  const textDelay = 2.0;
+function Typewriter({ text, delay, className }: { text: string; delay: number; className?: string }) {
+  const [displayed, setDisplayed] = useState("");
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const startTimer = setTimeout(() => setStarted(true), delay * 1000);
+    return () => clearTimeout(startTimer);
+  }, [delay]);
+
+  useEffect(() => {
+    if (!started) return;
+    if (displayed.length >= text.length) return;
+
+    const timer = setTimeout(() => {
+      setDisplayed(text.slice(0, displayed.length + 1));
+    }, 120);
+
+    return () => clearTimeout(timer);
+  }, [started, displayed, text]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <Image
-        src="/images/IMG_7488.jpg"
-        alt=""
-        fill
-        priority
-        className="object-cover opacity-30"
-        sizes="100vw"
-      />
+    <span className={className}>
+      {displayed}
+      {started && displayed.length < text.length && (
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+          className="inline-block w-[3px] h-[0.85em] bg-emerald-400 ml-1 align-middle"
+        />
+      )}
+    </span>
+  );
+}
 
-      <GeometricCanvas />
+export default function HeroSection({ locale, maps, dict }: HeroProps) {
+  // Cinematic timing
+  const photoFadeIn = 0;       // Photo starts fading in immediately
+  const windStart = 1.5;        // Wind begins
+  const nameStart = 2.5;        // Name typewriter starts
+  const nameEnd = nameStart + dict.hero.name.length * 0.12 + 0.5;
+  const descDelay = nameEnd + 0.3;
+  const ctaDelay = descDelay + 0.8;
+  const mapsDelay = nameEnd;
 
-      {/* Floating map images */}
-      <FloatingMaps locale={locale} maps={maps} />
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+      {/* Phase 1: Background photo fades in from black */}
+      <motion.div
+        className="absolute inset-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 3, delay: photoFadeIn, ease: "easeOut" }}
+      >
+        <Image
+          src="/images/IMG_7488.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover opacity-30"
+          sizes="100vw"
+        />
+      </motion.div>
+
+      {/* Phase 2: Wind animation fades in */}
+      <motion.div
+        className="absolute inset-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2, delay: windStart }}
+      >
+        <GeometricCanvas />
+      </motion.div>
+
+      {/* Phase 4: Floating maps appear after name */}
+      <motion.div
+        className="absolute inset-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, delay: mapsDelay }}
+      >
+        <FloatingMaps locale={locale} maps={maps} />
+      </motion.div>
 
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg/30 to-bg pointer-events-none" />
 
+      {/* Content */}
       <div className="relative z-10 text-center px-4">
         {dict.hero.greeting && (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: textDelay }}
+            transition={{ duration: 1.2, delay: nameStart - 0.5 }}
             className="text-emerald-400 text-lg mb-4"
           >
             {dict.hero.greeting}
           </motion.p>
         )}
 
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.9, filter: "blur(12px)" }}
-          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1.5, delay: textDelay + 0.2, ease: "easeOut" }}
-          className="text-6xl sm:text-8xl font-bold mb-2"
-        >
-          <span className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-emerald-500 bg-clip-text text-transparent">
-            {dict.hero.name}
-          </span>
+        {/* Phase 3: Name types in one character at a time */}
+        <h1 className="text-6xl sm:text-8xl font-bold mb-2 min-h-[1.2em]">
+          <Typewriter
+            text={dict.hero.name}
+            delay={nameStart}
+            className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-emerald-500 bg-clip-text text-transparent"
+          />
           {dict.hero.subtitle && (
-            <span className="text-text">{dict.hero.subtitle}</span>
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: nameEnd }}
+              className="text-text"
+            >
+              {dict.hero.subtitle}
+            </motion.span>
           )}
-        </motion.h1>
+        </h1>
 
         <motion.p
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 0.7, y: 0 }}
-          transition={{ duration: 1, delay: textDelay + 0.8 }}
+          transition={{ duration: 1, delay: descDelay }}
           className="text-text-muted text-lg sm:text-xl mt-6 mb-10 tracking-widest uppercase"
         >
           {dict.hero.description}
@@ -88,7 +158,7 @@ export default function HeroSection({ locale, maps, dict }: HeroProps) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: textDelay + 1.2 }}
+          transition={{ duration: 0.8, delay: ctaDelay }}
         >
           <Link
             href={`/${locale}/portfolio`}
