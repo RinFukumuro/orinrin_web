@@ -39,8 +39,8 @@ export default function FloatingMaps({ locale, maps }: FloatingMapsProps) {
             className="absolute w-48 sm:w-64 md:w-72 pointer-events-auto"
             style={style}
             initial={{ opacity: 0, scale: 0.7, rotate: pos.rotate }}
-            animate={{ opacity: 0.15, scale: pos.scale, rotate: pos.rotate }}
-            whileHover={{ opacity: 0.6, scale: pos.scale + 0.05 }}
+            animate={{ opacity: 0.35, scale: pos.scale, rotate: pos.rotate }}
+            whileHover={{ opacity: 0.75, scale: pos.scale + 0.05 }}
             transition={{ duration: 1.5, delay: 0.5 + i * 0.3, ease: "easeOut" }}
           >
             <Link

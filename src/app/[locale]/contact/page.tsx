@@ -35,33 +35,6 @@ export default async function ContactPage({
         <ScrollReveal delay={0.4}>
           <div className="flex flex-col gap-4">
             <a
-              href="mailto:orinring0g0@gmail.com"
-              className="flex items-center gap-4 bg-surface rounded-xl border border-emerald-900/30 p-6 hover:border-emerald-700/50 transition-colors group"
-            >
-              <div className="w-12 h-12 rounded-full bg-emerald-900/30 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-900/50 transition-colors">
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <p className="text-text font-medium">{dict.contact.email}</p>
-                <p className="text-text-muted text-sm">
-                  orinring0g0@gmail.com
-                </p>
-              </div>
-            </a>
-
-            <a
               href="https://x.com/orin_rensyusuru"
               target="_blank"
               rel="noopener noreferrer"
