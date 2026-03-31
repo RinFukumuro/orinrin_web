@@ -48,6 +48,10 @@
     "subtitle": "オリエンテーリングマップ",
     "backToHome": "ホームに戻る"
   },
+  "news": {
+    "title": "News",
+    "subtitle": "お知らせ・更新履歴"
+  },
   "footer": {
     "rights": "All rights reserved."
   }

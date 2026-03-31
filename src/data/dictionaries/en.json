@@ -48,6 +48,10 @@
     "subtitle": "Orienteering Maps",
     "backToHome": "Back to Home"
   },
+  "news": {
+    "title": "News",
+    "subtitle": "Updates & Announcements"
+  },
   "footer": {
     "rights": "All rights reserved."
   }
