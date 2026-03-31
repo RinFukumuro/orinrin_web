@@ -1,0 +1,24 @@
+[
+  {
+    "id": "project-1",
+    "title": { "ja": "サンプルプロジェクト", "en": "Sample Project" },
+    "description": {
+      "ja": "Next.jsとTypeScriptで構築したWebアプリケーション。",
+      "en": "A web application built with Next.js and TypeScript."
+    },
+    "thumbnail": "/images/projects/project-1/thumb.png",
+    "images": [
+      {
+        "src": "/images/projects/project-1/screenshot-1.png",
+        "alt": { "ja": "トップページ", "en": "Top page" }
+      },
+      {
+        "src": "/images/projects/project-1/screenshot-2.png",
+        "alt": { "ja": "詳細ページ", "en": "Detail page" }
+      }
+    ],
+    "tags": ["Next.js", "TypeScript", "Tailwind CSS"],
+    "url": "https://example.com",
+    "github": "https://github.com/example/project"
+  }
+]

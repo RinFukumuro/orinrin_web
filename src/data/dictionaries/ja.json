@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "portfolio": "ポートフォリオ",
+    "blog": "ブログ",
+    "contact": "お問い合わせ"
+  },
+  "hero": {
+    "greeting": "こんにちは、",
+    "name": "福室 凜",
+    "subtitle": "です",
+    "description": "ソフトウェアエンジニア / デベロッパー",
+    "cta": "ポートフォリオを見る"
+  },
+  "portfolio": {
+    "title": "ポートフォリオ",
+    "subtitle": "これまでの制作物",
+    "viewProject": "プロジェクトを見る",
+    "viewCode": "コードを見る",
+    "close": "閉じる",
+    "prev": "前へ",
+    "next": "次へ"
+  },
+  "blog": {
+    "title": "ブログ",
+    "subtitle": "技術記事・メモ",
+    "readMore": "続きを読む",
+    "backToList": "一覧に戻る"
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "subtitle": "お気軽にご連絡ください",
+    "email": "メールで連絡",
+    "twitter": "Xでフォロー"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Hi, I'm ",
+    "name": "Rin Fukumuro",
+    "subtitle": "",
+    "description": "Software Engineer / Developer",
+    "cta": "View Portfolio"
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "subtitle": "My Projects",
+    "viewProject": "View Project",
+    "viewCode": "View Code",
+    "close": "Close",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Tech articles & notes",
+    "readMore": "Read more",
+    "backToList": "Back to list"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Feel free to reach out",
+    "email": "Send Email",
+    "twitter": "Follow on X"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}
