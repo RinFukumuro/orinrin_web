@@ -31,7 +31,16 @@
     "title": "Contact",
     "subtitle": "Feel free to reach out",
     "email": "Send Email",
-    "twitter": "Follow on X"
+    "twitter": "Follow on X",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully. Thank you!",
+      "error": "Failed to send. Please try again."
+    }
   },
   "footer": {
     "rights": "All rights reserved."

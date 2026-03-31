@@ -2,6 +2,7 @@ import { locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import PageTransition from "@/components/ui/PageTransition";
+import ContactForm from "@/components/contact/ContactForm";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -26,9 +27,15 @@ export default async function ContactPage({
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
+          <div className="bg-surface rounded-xl border border-emerald-900/30 p-6 mb-8">
+            <ContactForm dict={dict.contact.form} />
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.4}>
           <div className="flex flex-col gap-4">
             <a
-              href="mailto:your-email@example.com"
+              href="mailto:orinring0g0@gmail.com"
               className="flex items-center gap-4 bg-surface rounded-xl border border-emerald-900/30 p-6 hover:border-emerald-700/50 transition-colors group"
             >
               <div className="w-12 h-12 rounded-full bg-emerald-900/30 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-900/50 transition-colors">
@@ -49,13 +56,13 @@ export default async function ContactPage({
               <div>
                 <p className="text-text font-medium">{dict.contact.email}</p>
                 <p className="text-text-muted text-sm">
-                  your-email@example.com
+                  orinring0g0@gmail.com
                 </p>
               </div>
             </a>
 
             <a
-              href="https://x.com/"
+              href="https://x.com/orin_rensyusuru"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-4 bg-surface rounded-xl border border-emerald-900/30 p-6 hover:border-emerald-700/50 transition-colors group"
@@ -71,7 +78,7 @@ export default async function ContactPage({
               </div>
               <div>
                 <p className="text-text font-medium">{dict.contact.twitter}</p>
-                <p className="text-text-muted text-sm">@your_handle</p>
+                <p className="text-text-muted text-sm">@orin_rensyusuru</p>
               </div>
             </a>
           </div>

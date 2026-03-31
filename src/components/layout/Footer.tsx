@@ -26,7 +26,7 @@ export default function Footer({ dict }: FooterProps) {
             </svg>
           </a>
           <a
-            href="https://x.com/"
+            href="https://x.com/orin_rensyusuru"
             target="_blank"
             rel="noopener noreferrer"
             className="text-text-muted hover:text-emerald-400 transition-colors"
