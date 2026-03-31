@@ -11,7 +11,7 @@ export default function Footer({ dict }: FooterProps) {
     <footer className="border-t border-emerald-900/30 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-text-muted text-sm">
-          &copy; {new Date().getFullYear()} Rin Fukumuro. {dict.footer.rights}
+          &copy; {new Date().getFullYear()} Orinrin. {dict.footer.rights}
         </p>
         <div className="flex gap-4">
           <a
