@@ -6,10 +6,10 @@
     "contact": "お問い合わせ"
   },
   "hero": {
-    "greeting": "こんにちは、",
+    "greeting": "",
     "name": "おりんりん",
-    "subtitle": "です",
-    "description": "ソフトウェアエンジニア / デベロッパー",
+    "subtitle": "",
+    "description": "Orienteering & Nature",
     "cta": "ポートフォリオを見る"
   },
   "portfolio": {

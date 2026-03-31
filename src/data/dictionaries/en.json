@@ -6,10 +6,10 @@
     "contact": "Contact"
   },
   "hero": {
-    "greeting": "Hi, I'm ",
+    "greeting": "",
     "name": "Orinrin",
     "subtitle": "",
-    "description": "Software Engineer / Developer",
+    "description": "Orienteering & Nature",
     "cta": "View Portfolio"
   },
   "portfolio": {

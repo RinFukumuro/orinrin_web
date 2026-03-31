@@ -2,16 +2,28 @@
 
 import { useEffect, useRef } from "react";
 
-interface Particle {
+interface Leaf {
   x: number;
   y: number;
   vx: number;
   vy: number;
   size: number;
-  shape: "hexagon" | "triangle" | "circle";
-  opacity: number;
   rotation: number;
   rotationSpeed: number;
+  opacity: number;
+  type: "leaf" | "petal" | "dot";
+  color: string;
+  wobblePhase: number;
+  wobbleSpeed: number;
+}
+
+interface WindLine {
+  x: number;
+  y: number;
+  length: number;
+  opacity: number;
+  speed: number;
+  yOffset: number;
 }
 
 export default function GeometricCanvas() {
@@ -25,8 +37,16 @@ export default function GeometricCanvas() {
     if (!ctx) return;
 
     let animationId: number;
-    let particles: Particle[] = [];
-    let mouse = { x: -1000, y: -1000 };
+    let leaves: Leaf[] = [];
+    let windLines: WindLine[] = [];
+    let time = 0;
+
+    // Wind state: starts calm, then bursts
+    const CALM_DURATION = 90; // ~1.5s at 60fps
+    const BURST_START = 90;
+    const BURST_PEAK = 150;
+    const SUSTAINED = 240;
+    let windStrength = 0;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -34,149 +54,217 @@ export default function GeometricCanvas() {
     };
 
     const isMobile = window.innerWidth < 768;
-    const particleCount = isMobile ? 25 : 50;
-    const connectionDistance = isMobile ? 120 : 180;
+    const leafCount = isMobile ? 35 : 70;
+    const windLineCount = isMobile ? 8 : 18;
 
-    const createParticle = (): Particle => {
-      const shapes: Particle["shape"][] = ["hexagon", "triangle", "circle"];
+    const greens = [
+      "rgba(16, 185, 129,",  // emerald-500
+      "rgba(5, 150, 105,",   // emerald-600
+      "rgba(4, 120, 87,",    // emerald-700
+      "rgba(52, 211, 153,",  // emerald-400
+      "rgba(110, 231, 183,", // emerald-300
+      "rgba(34, 120, 60,",   // forest green
+      "rgba(85, 166, 48,",   // leaf green
+    ];
+
+    const createLeaf = (scattered: boolean): Leaf => {
+      const types: Leaf["type"][] = ["leaf", "leaf", "petal", "dot", "dot"];
       return {
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 8 + 4,
-        shape: shapes[Math.floor(Math.random() * shapes.length)],
-        opacity: Math.random() * 0.3 + 0.1,
+        x: scattered
+          ? Math.random() * canvas.width
+          : canvas.width * 0.3 + Math.random() * canvas.width * 0.4,
+        y: scattered
+          ? Math.random() * canvas.height
+          : canvas.height + Math.random() * 100,
+        vx: 0,
+        vy: 0,
+        size: Math.random() * 10 + 4,
         rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.02,
+        rotationSpeed: (Math.random() - 0.5) * 0.03,
+        opacity: 0,
+        type: types[Math.floor(Math.random() * types.length)],
+        color: greens[Math.floor(Math.random() * greens.length)],
+        wobblePhase: Math.random() * Math.PI * 2,
+        wobbleSpeed: Math.random() * 0.04 + 0.02,
       };
     };
 
-    const drawHexagon = (
-      ctx: CanvasRenderingContext2D,
-      x: number,
-      y: number,
-      size: number,
-      rotation: number,
-    ) => {
-      ctx.beginPath();
-      for (let i = 0; i < 6; i++) {
-        const angle = (Math.PI / 3) * i + rotation;
-        const px = x + size * Math.cos(angle);
-        const py = y + size * Math.sin(angle);
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
-      ctx.closePath();
-    };
+    const createWindLine = (): WindLine => ({
+      x: -200 - Math.random() * 400,
+      y: Math.random() * canvas.height,
+      length: Math.random() * 120 + 60,
+      opacity: 0,
+      speed: Math.random() * 6 + 4,
+      yOffset: (Math.random() - 0.5) * 0.8,
+    });
 
-    const drawTriangle = (
-      ctx: CanvasRenderingContext2D,
-      x: number,
-      y: number,
-      size: number,
-      rotation: number,
-    ) => {
-      ctx.beginPath();
-      for (let i = 0; i < 3; i++) {
-        const angle = ((Math.PI * 2) / 3) * i + rotation - Math.PI / 2;
-        const px = x + size * Math.cos(angle);
-        const py = y + size * Math.sin(angle);
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
-      ctx.closePath();
-    };
-
-    const drawParticle = (p: Particle) => {
+    const drawLeaf = (l: Leaf) => {
+      if (l.opacity < 0.01) return;
       ctx.save();
-      ctx.strokeStyle = `rgba(16, 185, 129, ${p.opacity})`;
-      ctx.lineWidth = 1;
+      ctx.translate(l.x, l.y);
+      ctx.rotate(l.rotation);
+      ctx.globalAlpha = l.opacity;
 
-      switch (p.shape) {
-        case "hexagon":
-          drawHexagon(ctx, p.x, p.y, p.size, p.rotation);
-          break;
-        case "triangle":
-          drawTriangle(ctx, p.x, p.y, p.size, p.rotation);
-          break;
-        case "circle":
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          break;
+      if (l.type === "leaf") {
+        // Organic leaf shape
+        ctx.beginPath();
+        ctx.moveTo(0, -l.size);
+        ctx.bezierCurveTo(
+          l.size * 0.8, -l.size * 0.5,
+          l.size * 0.6, l.size * 0.5,
+          0, l.size
+        );
+        ctx.bezierCurveTo(
+          -l.size * 0.6, l.size * 0.5,
+          -l.size * 0.8, -l.size * 0.5,
+          0, -l.size
+        );
+        ctx.fillStyle = `${l.color} ${l.opacity})`;
+        ctx.fill();
+        // Leaf vein
+        ctx.beginPath();
+        ctx.moveTo(0, -l.size * 0.8);
+        ctx.lineTo(0, l.size * 0.8);
+        ctx.strokeStyle = `${l.color} ${l.opacity * 0.5})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      } else if (l.type === "petal") {
+        // Small rounded petal
+        ctx.beginPath();
+        ctx.ellipse(0, 0, l.size * 0.4, l.size * 0.7, 0, 0, Math.PI * 2);
+        ctx.fillStyle = `${l.color} ${l.opacity * 0.7})`;
+        ctx.fill();
+      } else {
+        // Tiny dot / spore
+        ctx.beginPath();
+        ctx.arc(0, 0, l.size * 0.2, 0, Math.PI * 2);
+        ctx.fillStyle = `${l.color} ${l.opacity * 0.6})`;
+        ctx.fill();
       }
+
+      ctx.restore();
+    };
+
+    const drawWindLine = (w: WindLine) => {
+      if (w.opacity < 0.01) return;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(w.x, w.y);
+      // Slight curve for organic feel
+      ctx.quadraticCurveTo(
+        w.x + w.length * 0.5,
+        w.y + w.yOffset * 20,
+        w.x + w.length,
+        w.y + w.yOffset * 10
+      );
+      ctx.strokeStyle = `rgba(167, 243, 208, ${w.opacity * 0.25})`;
+      ctx.lineWidth = 1.5;
       ctx.stroke();
       ctx.restore();
     };
 
     const animate = () => {
+      time++;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Update and draw particles
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.rotation += p.rotationSpeed;
-
-        // Mouse interaction
-        const dx = mouse.x - p.x;
-        const dy = mouse.y - p.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 150) {
-          p.vx -= dx * 0.0005;
-          p.vy -= dy * 0.0005;
-        }
-
-        // Wrap around edges
-        if (p.x < -20) p.x = canvas.width + 20;
-        if (p.x > canvas.width + 20) p.x = -20;
-        if (p.y < -20) p.y = canvas.height + 20;
-        if (p.y > canvas.height + 20) p.y = -20;
-
-        // Damping
-        p.vx *= 0.999;
-        p.vy *= 0.999;
-
-        drawParticle(p);
+      // Calculate wind strength over time
+      if (time < CALM_DURATION) {
+        // Calm phase - near stillness
+        windStrength = Math.sin(time * 0.02) * 0.02;
+      } else if (time < BURST_PEAK) {
+        // Burst phase - wind rushes in with easing
+        const t = (time - BURST_START) / (BURST_PEAK - BURST_START);
+        const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+        windStrength = eased * 1.0;
+      } else if (time < SUSTAINED) {
+        // Settling into sustained breeze
+        const t = (time - BURST_PEAK) / (SUSTAINED - BURST_PEAK);
+        windStrength = 1.0 - t * 0.6; // settle to 0.4
+      } else {
+        // Gentle ongoing breeze with subtle gusts
+        windStrength = 0.4 + Math.sin(time * 0.008) * 0.15 + Math.sin(time * 0.023) * 0.08;
       }
 
-      // Draw connections
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+      // Update and draw wind lines
+      for (const w of windLines) {
+        if (time > CALM_DURATION) {
+          w.x += w.speed * windStrength;
+          w.y += w.yOffset * windStrength;
+          w.opacity = Math.min(windStrength * 0.8, 0.6);
 
-          if (dist < connectionDistance) {
-            const opacity = (1 - dist / connectionDistance) * 0.15;
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(16, 185, 129, ${opacity})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
+          if (w.x > canvas.width + 200) {
+            w.x = -200 - Math.random() * 300;
+            w.y = Math.random() * canvas.height;
           }
         }
+        drawWindLine(w);
+      }
+
+      // Update and draw leaves
+      for (const l of leaves) {
+        // Fade in leaves
+        if (time < CALM_DURATION) {
+          // During calm: very subtle presence
+          l.opacity = Math.min(l.opacity + 0.003, 0.15);
+        } else {
+          // After wind: full opacity
+          const targetOpacity =
+            l.type === "dot" ? 0.4 : l.type === "petal" ? 0.5 : 0.6;
+          l.opacity += (targetOpacity - l.opacity) * 0.03;
+        }
+
+        // Wind force
+        const windForceX = windStrength * (2.5 + Math.sin(l.wobblePhase) * 0.8);
+        const windForceY = windStrength * (-1.2 + Math.cos(l.wobblePhase * 0.7) * 0.5);
+
+        l.vx += windForceX * 0.04;
+        l.vy += windForceY * 0.04;
+
+        // Gravity (very slight)
+        l.vy += 0.01;
+
+        // Wobble
+        l.wobblePhase += l.wobbleSpeed;
+        l.vx += Math.sin(l.wobblePhase) * 0.05 * windStrength;
+        l.vy += Math.cos(l.wobblePhase * 1.3) * 0.03 * windStrength;
+
+        // Damping
+        l.vx *= 0.97;
+        l.vy *= 0.97;
+
+        l.x += l.vx;
+        l.y += l.vy;
+        l.rotation += l.rotationSpeed * (1 + windStrength * 3);
+
+        // Wrap around
+        if (l.x > canvas.width + 50) {
+          l.x = -50;
+          l.y = Math.random() * canvas.height;
+        }
+        if (l.x < -50) l.x = canvas.width + 50;
+        if (l.y < -50) l.y = canvas.height + 50;
+        if (l.y > canvas.height + 50) {
+          l.y = -50;
+          l.x = Math.random() * canvas.width;
+        }
+
+        drawLeaf(l);
       }
 
       animationId = requestAnimationFrame(animate);
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    };
-
     resize();
-    particles = Array.from({ length: particleCount }, createParticle);
+    leaves = Array.from({ length: leafCount }, (_, i) =>
+      createLeaf(i < leafCount * 0.6)
+    );
+    windLines = Array.from({ length: windLineCount }, createWindLine);
 
     window.addEventListener("resize", resize);
-    window.addEventListener("mousemove", handleMouseMove);
     animate();
 
     return () => {
       window.removeEventListener("resize", resize);
-      window.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(animationId);
     };
   }, []);
@@ -185,7 +273,6 @@ export default function GeometricCanvas() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full"
-      style={{ pointerEvents: "auto" }}
     />
   );
 }

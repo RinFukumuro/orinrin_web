@@ -19,40 +19,47 @@ interface HeroProps {
 }
 
 export default function HeroSection({ locale, dict }: HeroProps) {
+  // Text appears after the wind burst (~2.5s)
+  const textDelay = 2.0;
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <GeometricCanvas />
 
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg/50 to-bg pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg/30 to-bg pointer-events-none" />
 
       <div className="relative z-10 text-center px-4">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-emerald-400 text-lg mb-4"
-        >
-          {dict.hero.greeting}
-        </motion.p>
+        {dict.hero.greeting && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: textDelay }}
+            className="text-emerald-400 text-lg mb-4"
+          >
+            {dict.hero.greeting}
+          </motion.p>
+        )}
 
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-5xl sm:text-7xl font-bold mb-2"
+          initial={{ opacity: 0, scale: 0.9, filter: "blur(12px)" }}
+          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 1.5, delay: textDelay + 0.2, ease: "easeOut" }}
+          className="text-6xl sm:text-8xl font-bold mb-2"
         >
-          <span className="bg-gradient-to-r from-emerald-400 to-emerald-200 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-emerald-500 bg-clip-text text-transparent">
             {dict.hero.name}
           </span>
-          <span className="text-text">{dict.hero.subtitle}</span>
+          {dict.hero.subtitle && (
+            <span className="text-text">{dict.hero.subtitle}</span>
+          )}
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-text-muted text-lg sm:text-xl mt-4 mb-8"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 0.7, y: 0 }}
+          transition={{ duration: 1, delay: textDelay + 0.8 }}
+          className="text-text-muted text-lg sm:text-xl mt-6 mb-10 tracking-widest uppercase"
         >
           {dict.hero.description}
         </motion.p>
@@ -60,11 +67,11 @@ export default function HeroSection({ locale, dict }: HeroProps) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.8, delay: textDelay + 1.2 }}
         >
           <Link
             href={`/${locale}/portfolio`}
-            className="inline-block px-8 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium transition-colors"
+            className="inline-block px-8 py-3 rounded-lg bg-emerald-600/80 hover:bg-emerald-500 text-white font-medium transition-all duration-300 backdrop-blur-sm border border-emerald-500/30 hover:border-emerald-400/50"
           >
             {dict.hero.cta}
           </Link>
