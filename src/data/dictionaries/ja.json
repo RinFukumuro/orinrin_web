@@ -13,6 +13,15 @@
     "description": "Orienteering & Nature",
     "cta": "ポートフォリオを見る"
   },
+  "about": {
+    "title": "About",
+    "subtitle": "おりんりんについて",
+    "description": "オリエンテーリングと自然を愛するクリエイター。地図制作やWebサイト開発を通じて、オリエンテーリングの魅力を発信しています。",
+    "mission": "Mission",
+    "missionText": "オリエンテーリングをもっと身近に。地図とテクノロジーの力で、自然の中を走る楽しさを多くの人に届けます。",
+    "vision": "Vision",
+    "visionText": "地図を通じてフィールドの魅力を伝え、オリエンテーリングコミュニティの発展に貢献する。"
+  },
   "portfolio": {
     "title": "ポートフォリオ",
     "subtitle": "これまでの制作物",

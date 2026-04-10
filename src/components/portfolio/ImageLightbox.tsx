@@ -55,7 +55,7 @@ export default function ImageLightbox({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center"
+      className="fixed inset-0 z-[100] bg-bg/90 backdrop-blur-md flex items-center justify-center"
       onClick={onClose}
     >
       <div
@@ -78,7 +78,7 @@ export default function ImageLightbox({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="w-full rounded-lg"
+            className="w-full rounded-xl shadow-[var(--shadow-glow-lg)]"
           />
         </AnimatePresence>
 
@@ -86,14 +86,14 @@ export default function ImageLightbox({
           <>
             <button
               onClick={prev}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-bg/60 text-text hover:bg-bg/80 flex items-center justify-center transition-colors"
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface/80 text-text hover:shadow-[var(--shadow-glow-sm)] flex items-center justify-center transition-all"
               aria-label={dict.prev}
             >
               &#8249;
             </button>
             <button
               onClick={next}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-bg/60 text-text hover:bg-bg/80 flex items-center justify-center transition-colors"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface/80 text-text hover:shadow-[var(--shadow-glow-sm)] flex items-center justify-center transition-all"
               aria-label={dict.next}
             >
               &#8250;
@@ -103,8 +103,10 @@ export default function ImageLightbox({
                 <button
                   key={i}
                   onClick={() => setIndex(i)}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    i === index ? "bg-emerald-400" : "bg-text-muted/30"
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    i === index
+                      ? "bg-primary-light shadow-[0_0_8px_rgba(14,165,233,0.5)]"
+                      : "bg-text-muted/30"
                   }`}
                 />
               ))}
@@ -112,7 +114,7 @@ export default function ImageLightbox({
           </>
         )}
 
-        <p className="text-center text-text-muted text-sm mt-2">
+        <p className="text-center text-text-muted text-sm mt-3">
           {image.alt[locale]}
         </p>
       </div>

@@ -45,10 +45,10 @@ export default function ContactForm({ dict }: { dict: ContactFormDict }) {
       action="https://formspree.io/f/YOUR_FORM_ID"
       method="POST"
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-5"
     >
       <div>
-        <label htmlFor="name" className="block text-text text-sm font-medium mb-1">
+        <label htmlFor="name" className="block text-text text-sm font-medium mb-2">
           {dict.name}
         </label>
         <input
@@ -56,12 +56,13 @@ export default function ContactForm({ dict }: { dict: ContactFormDict }) {
           id="name"
           name="name"
           required
-          className="w-full bg-surface border border-emerald-900/30 rounded-lg px-4 py-3 text-text placeholder-text-muted/50 focus:outline-none focus:border-emerald-500 transition-colors"
+          className="w-full bg-bg-alt border rounded-lg px-4 py-3 text-text placeholder-text-muted/50 focus:outline-none focus:shadow-[0_0_15px_rgba(14,165,233,0.2)] transition-all duration-300"
+          style={{ borderColor: "rgba(139, 92, 246, 0.15)" }}
         />
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-text text-sm font-medium mb-1">
+        <label htmlFor="email" className="block text-text text-sm font-medium mb-2">
           {dict.email}
         </label>
         <input
@@ -69,12 +70,13 @@ export default function ContactForm({ dict }: { dict: ContactFormDict }) {
           id="email"
           name="email"
           required
-          className="w-full bg-surface border border-emerald-900/30 rounded-lg px-4 py-3 text-text placeholder-text-muted/50 focus:outline-none focus:border-emerald-500 transition-colors"
+          className="w-full bg-bg-alt border rounded-lg px-4 py-3 text-text placeholder-text-muted/50 focus:outline-none focus:shadow-[0_0_15px_rgba(14,165,233,0.2)] transition-all duration-300"
+          style={{ borderColor: "rgba(139, 92, 246, 0.15)" }}
         />
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-text text-sm font-medium mb-1">
+        <label htmlFor="message" className="block text-text text-sm font-medium mb-2">
           {dict.message}
         </label>
         <textarea
@@ -82,20 +84,28 @@ export default function ContactForm({ dict }: { dict: ContactFormDict }) {
           name="message"
           required
           rows={5}
-          className="w-full bg-surface border border-emerald-900/30 rounded-lg px-4 py-3 text-text placeholder-text-muted/50 focus:outline-none focus:border-emerald-500 transition-colors resize-none"
+          className="w-full bg-bg-alt border rounded-lg px-4 py-3 text-text placeholder-text-muted/50 focus:outline-none focus:shadow-[0_0_15px_rgba(14,165,233,0.2)] transition-all duration-300 resize-none"
+          style={{ borderColor: "rgba(139, 92, 246, 0.15)" }}
         />
       </div>
 
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-800 disabled:cursor-not-allowed text-white font-medium py-3 rounded-lg transition-colors"
+        className="group relative w-full text-white font-medium py-3.5 rounded-lg overflow-hidden transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        style={{
+          background: "linear-gradient(135deg, #0ea5e9, #a855f7)",
+          boxShadow: "0 0 20px rgba(14, 165, 233, 0.2), 0 0 40px rgba(168, 85, 247, 0.1)",
+        }}
       >
-        {status === "sending" ? dict.sending : dict.submit}
+        <span className="relative z-10">
+          {status === "sending" ? dict.sending : dict.submit}
+        </span>
+        <div className="absolute inset-0 bg-gradient-to-r from-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </button>
 
       {status === "success" && (
-        <p className="text-emerald-400 text-sm text-center">{dict.success}</p>
+        <p className="text-primary-light text-sm text-center font-medium">{dict.success}</p>
       )}
       {status === "error" && (
         <p className="text-red-400 text-sm text-center">{dict.error}</p>

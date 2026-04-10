@@ -15,8 +15,8 @@
     "id": "map2",
     "image": "/images/maps/map2.jpg",
     "title": {
-      "ja": "四谷荒木町",
-      "en": "Yotsuya Arakicho"
+      "ja": "六本木ヒルズ",
+      "en": "Roppongi Hills"
     },
     "description": {
       "ja": "地図の説明文をここに記載します。",
@@ -27,8 +27,8 @@
     "id": "map3",
     "image": "/images/maps/map3.jpg",
     "title": {
-      "ja": "六本木ヒルズ",
-      "en": "Roppongi Hills"
+      "ja": "四谷荒木町",
+      "en": "Yotsuya Arakicho"
     },
     "description": {
       "ja": "地図の説明文をここに記載します。",

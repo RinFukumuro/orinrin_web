@@ -13,6 +13,15 @@
     "description": "Orienteering & Nature",
     "cta": "View Portfolio"
   },
+  "about": {
+    "title": "About",
+    "subtitle": "About Orinrin",
+    "description": "A creator who loves orienteering and nature. Sharing the joy of orienteering through map-making and web development.",
+    "mission": "Mission",
+    "missionText": "Making orienteering more accessible. Delivering the joy of running through nature to more people, powered by maps and technology.",
+    "vision": "Vision",
+    "visionText": "Conveying the beauty of the field through maps, and contributing to the growth of the orienteering community."
+  },
   "portfolio": {
     "title": "Portfolio",
     "subtitle": "My Projects",

@@ -38,13 +38,13 @@ export default function Header({ locale, dict }: HeaderProps) {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-emerald-900/30">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-bg/70 backdrop-blur-xl" style={{ borderBottom: "1px solid rgba(139, 92, 246, 0.1)" }}>
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <Link
           href={`/${locale}`}
-          className="text-xl font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+          className="text-xl font-bold bg-gradient-to-r from-primary-light to-secondary bg-clip-text text-transparent hover:opacity-80 transition-opacity glow-text"
         >
-          Rin.
+          Orinrin
         </Link>
 
         {/* Desktop nav */}
@@ -53,9 +53,9 @@ export default function Header({ locale, dict }: HeaderProps) {
             <Link
               key={item.href}
               href={item.href}
-              className={`text-sm transition-colors ${
+              className={`text-sm font-medium transition-all duration-200 ${
                 isActive(item.href)
-                  ? "text-emerald-400"
+                  ? "text-primary-light drop-shadow-[0_0_8px_rgba(14,165,233,0.4)]"
                   : "text-text-muted hover:text-text"
               }`}
             >
@@ -64,7 +64,8 @@ export default function Header({ locale, dict }: HeaderProps) {
           ))}
           <Link
             href={switchedPath}
-            className="text-sm px-3 py-1 rounded border border-emerald-700 text-emerald-400 hover:bg-emerald-900/30 transition-colors"
+            className="text-sm px-3 py-1 rounded-full text-text-muted hover:text-primary-light transition-all duration-200"
+            style={{ border: "1px solid rgba(139, 92, 246, 0.2)" }}
           >
             {otherLocale.toUpperCase()}
           </Link>
@@ -76,26 +77,11 @@ export default function Header({ locale, dict }: HeaderProps) {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Menu"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {menuOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             )}
           </svg>
         </button>
@@ -108,7 +94,8 @@ export default function Header({ locale, dict }: HeaderProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-surface border-b border-emerald-900/30 overflow-hidden"
+            className="md:hidden bg-surface/95 backdrop-blur-xl overflow-hidden"
+            style={{ borderBottom: "1px solid rgba(139, 92, 246, 0.1)" }}
           >
             <div className="px-4 py-4 flex flex-col gap-4">
               {navItems.map((item) => (
@@ -116,9 +103,9 @@ export default function Header({ locale, dict }: HeaderProps) {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`text-sm transition-colors ${
+                  className={`text-sm font-medium transition-colors ${
                     isActive(item.href)
-                      ? "text-emerald-400"
+                      ? "text-primary-light"
                       : "text-text-muted hover:text-text"
                   }`}
                 >
@@ -128,7 +115,7 @@ export default function Header({ locale, dict }: HeaderProps) {
               <Link
                 href={switchedPath}
                 onClick={() => setMenuOpen(false)}
-                className="text-sm text-emerald-400"
+                className="text-sm text-primary-light"
               >
                 {otherLocale === "en" ? "English" : "日本語"}
               </Link>
