@@ -56,11 +56,11 @@ export default function Header({ locale, dict }: HeaderProps) {
   };
 
   return (
-    <header lang={locale} className="fixed top-0 left-0 right-0 z-50 bg-bg/95 backdrop-blur-md border-b border-emerald-900/30">
+    <header lang={locale} className="fixed top-0 left-0 right-0 z-50 bg-bg/95 backdrop-blur-md border-b border-border">
       <nav aria-label={locale === "ja" ? "メインナビゲーション" : "Main navigation"} className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <Link
           href={`/${locale}`}
-          className="text-xl font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+          className="text-xl font-bold text-primary-light hover:text-primary-light transition-colors"
         >
           Rin.
         </Link>
@@ -74,7 +74,7 @@ export default function Header({ locale, dict }: HeaderProps) {
               aria-current={isActive(item.href) ? "page" : undefined}
               className={`text-sm transition-colors ${
                 isActive(item.href)
-                  ? "text-emerald-400"
+                  ? "text-primary-light"
                   : "text-text-muted hover:text-text"
               }`}
             >
@@ -85,7 +85,7 @@ export default function Header({ locale, dict }: HeaderProps) {
             href={switchedPath}
             hrefLang={otherLocale}
             lang={otherLocale}
-            className="text-sm px-3 py-1 rounded border border-emerald-700 text-emerald-400 hover:bg-emerald-900/30 transition-colors"
+            className="text-sm px-3 py-1 rounded border border-primary/40 text-primary-light hover:bg-primary/10 transition-colors"
           >
             {otherLocale.toUpperCase()}
           </Link>
@@ -134,7 +134,7 @@ export default function Header({ locale, dict }: HeaderProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-surface border-b border-emerald-900/30 overflow-hidden"
+            className="md:hidden bg-surface border-b border-border overflow-hidden"
           >
             <div className="px-4 py-4 flex flex-col gap-4">
               {navItems.map((item) => (
@@ -145,7 +145,7 @@ export default function Header({ locale, dict }: HeaderProps) {
                   onClick={() => setMenuOpen(false)}
                   className={`text-sm transition-colors ${
                     isActive(item.href)
-                      ? "text-emerald-400"
+                      ? "text-primary-light"
                       : "text-text-muted hover:text-text"
                   }`}
                 >
@@ -157,7 +157,7 @@ export default function Header({ locale, dict }: HeaderProps) {
                 hrefLang={otherLocale}
                 lang={otherLocale}
                 onClick={() => setMenuOpen(false)}
-                className="text-sm text-emerald-400"
+                className="text-sm text-primary-light"
               >
                 {otherLocale === "en" ? "English" : "日本語"}
               </Link>

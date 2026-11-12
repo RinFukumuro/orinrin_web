@@ -16,7 +16,7 @@ export default function MapGallery({ maps, locale }: { maps: MapItem[]; locale: 
       {maps.map((map) => (
         <li key={map.id}>
           <Link href={`/${locale}/maps/${map.id}`}
-            className="block h-full group bg-surface rounded-xl border border-emerald-900/50 overflow-hidden hover:border-emerald-500 transition-colors">
+            className="block h-full group glass-card gradient-border rounded-2xl overflow-hidden transition-all duration-300">
             <div className="relative aspect-[4/3] overflow-hidden">
               <Image src={map.preview} alt={map.title[locale]} fill className="object-cover group-hover:scale-105 transition-transform duration-300"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />

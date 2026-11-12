@@ -4,6 +4,7 @@ import { getAllBlogPosts } from "@/lib/blog";
 import ArticleCard from "@/components/blog/ArticleCard";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import PageTransition from "@/components/ui/PageTransition";
+import { SectionLabel, GlowOrb } from "@/components/ui/Decorations";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -26,12 +27,15 @@ export default async function BlogPage({
 
   return (
     <PageTransition>
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-20">
+      <section className="relative max-w-4xl mx-auto px-4 sm:px-6 py-24 overflow-hidden">
+        <GlowOrb className="-top-20 right-0" color="blue" size={200} />
+
         <ScrollReveal>
+          <SectionLabel>Blog</SectionLabel>
           <h1 className="text-4xl font-bold text-text mb-2">
             {dict.blog.title}
           </h1>
-          <p className="text-text-muted mb-12">{dict.blog.subtitle}</p>
+          <p className="text-text-muted mb-14">{dict.blog.subtitle}</p>
         </ScrollReveal>
 
         <div className="flex flex-col gap-6">

@@ -20,7 +20,13 @@
     "title": "About",
     "intro": "I work on orienteering and web projects. For my graduation thesis, I am implementing simulations in Python and Julia.",
     "experience": "In a previous part-time role, I built websites with HTML, CSS, and JavaScript. My current internship focuses on AI-assisted no-code development, and I am also learning React and Next.js through personal projects.",
-    "learning": "I want to understand how software works and develop the skills to implement and improve it myself."
+    "learning": "I want to understand how software works and develop the skills to implement and improve it myself.",
+    "subtitle": "About Orinrin",
+    "description": "A creator who loves orienteering and nature. Sharing the joy of orienteering through map-making and web development.",
+    "mission": "Mission",
+    "missionText": "Making orienteering more accessible. Delivering the joy of running through nature to more people, powered by maps and technology.",
+    "vision": "Vision",
+    "visionText": "Conveying the beauty of the field through maps, and contributing to the growth of the orienteering community."
   },
   "portfolio": {
     "title": "Projects",

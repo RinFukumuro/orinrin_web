@@ -31,24 +31,14 @@ export default async function MapPage({
 
   return (
     <PageTransition>
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-20">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-24">
         <ScrollReveal>
           <Link
             href={`/${locale}`}
-            className="inline-flex items-center gap-2 text-text-muted hover:text-emerald-400 transition-colors text-sm mb-8"
+            className="inline-flex items-center gap-2 text-text-muted hover:text-primary-light transition-colors text-sm mb-8"
           >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             {dict.maps.backToHome}
           </Link>
@@ -62,7 +52,7 @@ export default async function MapPage({
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
-          <div className="relative w-full rounded-xl overflow-hidden border border-emerald-900/30">
+          <div className="relative w-full rounded-2xl overflow-hidden shadow-[var(--shadow-glow)]" style={{ border: "1px solid rgba(139, 92, 246, 0.15)" }}>
             <Image
               src={map.image}
               alt={title}

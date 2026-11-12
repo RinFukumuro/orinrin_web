@@ -30,10 +30,10 @@ export default async function BlogPostPage({
 
   return (
     <PageTransition>
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 py-20">
+      <article className="max-w-3xl mx-auto px-4 sm:px-6 py-24">
         <Link
           href={`/${locale}/blog`}
-          className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors mb-8 inline-block"
+          className="text-sm text-primary-light hover:text-primary font-medium transition-colors mb-8 inline-block"
         >
           &larr; {dict.blog.backToList}
         </Link>
@@ -45,7 +45,7 @@ export default async function BlogPostPage({
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-xs px-2 py-1 rounded bg-emerald-900/30 text-emerald-400"
+                className="text-xs px-2.5 py-1 rounded-full font-medium bg-primary/10 text-primary-light"
               >
                 {tag}
               </span>
