@@ -1,20 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const notoSansJP = Noto_Sans_JP({
-  subsets: ["latin"],
-  variable: "--font-noto-sans-jp",
-});
-
 export const metadata: Metadata = {
-  title: "Rin Fukumuro",
-  description: "Portfolio & Blog - Rin Fukumuro",
+  title: { default: "Rin Fukumuro / Orinrin", template: "%s | Orinrin" },
+  description: "Rin Fukumuroの個人サイト。Web制作、オリエンテーリングの地図、学習の記録を紹介します。",
 };
 
 export default function RootLayout({
@@ -25,7 +14,7 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={`${inter.variable} ${notoSansJP.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>

@@ -9,6 +9,12 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const dict = await getDictionary(locale as Locale);
+  return { title: dict.blog.title, description: dict.blog.subtitle };
+}
+
 export default async function BlogPage({
   params,
 }: {
@@ -30,7 +36,7 @@ export default async function BlogPage({
 
         <div className="flex flex-col gap-6">
           {posts.length === 0 && (
-            <p className="text-text-muted">Coming soon...</p>
+            <p className="text-text-muted">{dict.blog.empty}</p>
           )}
           {posts.map((post, i) => (
             <ScrollReveal key={post.slug} delay={0.1 * i}>

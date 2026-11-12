@@ -1,189 +1,38 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import GeometricCanvas from "./GeometricCanvas";
 import FloatingMaps from "./FloatingMaps";
 import type { Locale } from "@/lib/i18n/config";
-
-interface MapData {
-  id: string;
-  image: string;
-  title: Record<string, string>;
-}
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 interface HeroProps {
   locale: Locale;
-  maps: MapData[];
-  dict: {
-    hero: {
-      greeting: string;
-      name: string;
-      subtitle: string;
-      description: string;
-      cta: string;
-    };
-  };
-}
-
-function TypewriterBounce({ text, delay, className }: { text: string; delay: number; className?: string }) {
-  const [count, setCount] = useState(0);
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    const startTimer = setTimeout(() => setStarted(true), delay * 1000);
-    return () => clearTimeout(startTimer);
-  }, [delay]);
-
-  useEffect(() => {
-    if (!started) return;
-    if (count >= text.length) return;
-
-    const timer = setTimeout(() => {
-      setCount((c) => c + 1);
-    }, 120);
-
-    return () => clearTimeout(timer);
-  }, [started, count, text]);
-
-  const chars = text.slice(0, count).split("");
-
-  return (
-    <span className={className}>
-      {chars.map((char, i) => (
-        <motion.span
-          key={i}
-          initial={{ opacity: 0, y: -30, scale: 1.4 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{
-            type: "spring",
-            stiffness: 400,
-            damping: 12,
-            mass: 0.8,
-          }}
-          className="inline-block"
-        >
-          {char}
-        </motion.span>
-      ))}
-      {started && count < text.length && (
-        <motion.span
-          animate={{ opacity: [1, 0] }}
-          transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-          className="inline-block w-[3px] h-[0.85em] bg-emerald-400 ml-1 align-middle"
-        />
-      )}
-    </span>
-  );
+  maps: { id: string; image: string; preview: string; title: Record<string, string> }[];
+  dict: Dictionary;
 }
 
 export default function HeroSection({ locale, maps, dict }: HeroProps) {
-  // Cinematic timing
-  const photoFadeIn = 0;       // Photo starts fading in immediately
-  const windStart = 1.5;        // Wind begins
-  const nameStart = 2.5;        // Name typewriter starts
-  const nameEnd = nameStart + dict.hero.name.length * 0.12 + 0.5;
-  const descDelay = nameEnd + 0.3;
-  const ctaDelay = descDelay + 0.8;
-  const mapsDelay = nameEnd;
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
-      {/* Phase 1: Background photo fades in from black */}
-      <motion.div
-        className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 3, delay: photoFadeIn, ease: "easeOut" }}
-      >
-        <Image
-          src="/images/IMG_7488.jpg"
-          alt=""
-          fill
-          priority
-          className="object-cover opacity-30"
-          sizes="100vw"
-        />
-      </motion.div>
-
-      {/* Phase 2: Wind animation fades in */}
-      <motion.div
-        className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2, delay: windStart }}
-      >
-        <GeometricCanvas />
-      </motion.div>
-
-      {/* Phase 4: Floating maps appear after name */}
-      <motion.div
-        className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, delay: mapsDelay }}
-      >
+    <section className="relative min-h-[min(760px,calc(100svh-4rem))] flex items-center justify-center overflow-hidden bg-black py-24">
+      <Image src="/images/hero-forest.webp" alt="" fill priority className="object-cover opacity-30" sizes="100vw" />
+      <div className="absolute inset-0 pointer-events-none motion-reduce:hidden" aria-hidden="true"><GeometricCanvas /></div>
+      <div className="absolute inset-0 hidden md:block" aria-hidden="true">
         <FloatingMaps locale={locale} maps={maps} />
-      </motion.div>
-
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg/30 to-bg pointer-events-none" />
-
-      {/* Content */}
-      <div className="relative z-10 text-center px-4">
-        {dict.hero.greeting && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: nameStart - 0.5 }}
-            className="text-emerald-400 text-lg mb-4"
-          >
-            {dict.hero.greeting}
-          </motion.p>
-        )}
-
-        {/* Phase 3: Name types in one character at a time */}
-        <h1 className="text-6xl sm:text-8xl font-bold mb-2 min-h-[1.2em]">
-          <TypewriterBounce
-            text={dict.hero.name}
-            delay={nameStart}
-            className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-emerald-500 bg-clip-text text-transparent"
-          />
-          {dict.hero.subtitle && (
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: nameEnd }}
-              className="text-text"
-            >
-              {dict.hero.subtitle}
-            </motion.span>
-          )}
-        </h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 0.7, y: 0 }}
-          transition={{ duration: 1, delay: descDelay }}
-          className="text-text-muted text-lg sm:text-xl mt-6 mb-10 tracking-widest uppercase"
-        >
-          {dict.hero.description}
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: ctaDelay }}
-        >
-          <Link
-            href={`/${locale}/portfolio`}
-            className="inline-block px-8 py-3 rounded-lg bg-emerald-600/80 hover:bg-emerald-500 text-white font-medium transition-all duration-300 backdrop-blur-sm border border-emerald-500/30 hover:border-emerald-400/50"
-          >
-            {dict.hero.cta}
-          </Link>
-        </motion.div>
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-bg/10 via-bg/40 to-bg pointer-events-none" />
+      <div className="relative z-10 text-center px-4 max-w-3xl">
+        <p className="text-emerald-300 text-sm tracking-widest mb-6">{dict.hero.greeting}</p>
+        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-emerald-300">{dict.hero.name}</h1>
+        <p className="text-gray-200 text-sm sm:text-lg mt-6 mb-10 tracking-widest">{dict.hero.description}</p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link href={`/${locale}/portfolio`} className="px-7 py-3 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-medium transition-colors">{dict.hero.cta}</Link>
+          <a href="https://github.com/RinFukumuro/orinrin_web" target="_blank" rel="noopener noreferrer"
+            className="px-7 py-3 rounded-lg bg-bg/70 border border-emerald-700 text-emerald-300 hover:bg-surface transition-colors">
+            {dict.hero.code}<span className="sr-only">{dict.contact.newTab}</span>
+          </a>
+        </div>
       </div>
     </section>
   );

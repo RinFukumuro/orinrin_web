@@ -7,4 +7,5 @@ export interface BlogPost {
   descriptionEn?: string;
   tags: string[];
   content: string;
+  contentEn?: string;
 }

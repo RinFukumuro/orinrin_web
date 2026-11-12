@@ -1,47 +1,49 @@
 {
   "nav": {
     "home": "ホーム",
-    "portfolio": "ポートフォリオ",
+    "portfolio": "制作物",
     "blog": "ブログ",
-    "contact": "お問い合わせ",
-    "maps": "地図"
+    "contact": "リンク",
+    "maps": "地図",
+    "menu": "メニュー",
+    "skip": "本文へ移動"
   },
   "hero": {
-    "greeting": "",
+    "greeting": "Rin Fukumuro / Portfolio",
     "name": "おりんりん",
     "subtitle": "",
-    "description": "Orienteering & Nature",
-    "cta": "ポートフォリオを見る"
+    "description": "Orienteering & Web Development",
+    "cta": "制作物を見る",
+    "code": "GitHubを見る"
+  },
+  "about": {
+    "title": "プロフィール",
+    "intro": "オリエンテーリングとWeb制作に取り組んでいます。卒業論文ではPython・Juliaを用いてシミュレーションを実装しています。",
+    "experience": "以前のアルバイトではHTML・CSS・JavaScriptでサイトを制作しました。現在はAIを活用したノーコード開発のインターンに参加し、個人でもReact・Next.jsを学んでいます。",
+    "learning": "内部の仕組みや設計を理解し、自分で実装・改善できる力を身につけたいと考えています。"
   },
   "portfolio": {
-    "title": "ポートフォリオ",
-    "subtitle": "これまでの制作物",
-    "viewProject": "プロジェクトを見る",
-    "viewCode": "コードを見る",
+    "title": "制作物",
+    "subtitle": "Web制作とオリエンテーリングの地図",
+    "viewProject": "サイトを見る",
+    "viewCode": "ソースコード",
+    "preview": "画像を拡大",
     "close": "閉じる",
-    "prev": "前へ",
-    "next": "次へ"
+    "prev": "前の画像",
+    "next": "次の画像"
   },
   "blog": {
     "title": "ブログ",
-    "subtitle": "技術記事・メモ",
+    "subtitle": "サイト制作と学習の記録",
     "readMore": "続きを読む",
-    "backToList": "一覧に戻る"
+    "backToList": "一覧に戻る",
+    "empty": "記事は準備中です。"
   },
   "contact": {
-    "title": "お問い合わせ",
-    "subtitle": "お気軽にご連絡ください",
-    "email": "メールで連絡",
-    "twitter": "Xでフォロー",
-    "form": {
-      "name": "お名前",
-      "email": "メールアドレス",
-      "message": "メッセージ",
-      "submit": "送信する",
-      "sending": "送信中...",
-      "success": "メッセージを送信しました。ありがとうございます！",
-      "error": "送信に失敗しました。もう一度お試しください。"
-    }
+    "title": "リンク",
+    "subtitle": "個人で取り組んでいる開発のコードをGitHubで公開しています。",
+    "github": "個人で取り組んでいる開発のコードを公開しています。",
+    "newTab": "（新しいタブで開きます）"
   },
   "maps": {
     "title": "地図",
@@ -49,8 +51,8 @@
     "backToHome": "ホームに戻る"
   },
   "news": {
-    "title": "News",
-    "subtitle": "お知らせ・更新履歴"
+    "title": "更新履歴",
+    "subtitle": "サイトの変更について"
   },
   "footer": {
     "rights": "All rights reserved."

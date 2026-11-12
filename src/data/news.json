@@ -1,44 +1,16 @@
 [
   {
-    "date": "2026-03-31",
+    "date": "2026-11-12",
     "title": {
-      "ja": "ヒーロー背景画像と風アニメーションを追加",
-      "en": "Added hero background image with wind animation"
+      "ja": "プロフィール・制作物の紹介と、サイトの操作性を見直しました。",
+      "en": "Updated the profile, project details, and site navigation."
     }
   },
   {
     "date": "2026-03-31",
     "title": {
-      "ja": "地図の自動スクロールギャラリーを追加",
-      "en": "Added auto-scrolling map gallery"
-    }
-  },
-  {
-    "date": "2026-03-31",
-    "title": {
-      "ja": "オリエンテーリングマップ（晴海・四谷荒木町・六本木ヒルズ）を公開",
-      "en": "Published orienteering maps (Harumi, Yotsuya Arakicho, Roppongi Hills)"
-    }
-  },
-  {
-    "date": "2026-03-31",
-    "title": {
-      "ja": "お問い合わせフォームを実装",
-      "en": "Implemented contact form"
-    }
-  },
-  {
-    "date": "2026-03-31",
-    "title": {
-      "ja": "X (Twitter) アカウントを @orin_rensyusuru に更新",
-      "en": "Updated X (Twitter) handle to @orin_rensyusuru"
-    }
-  },
-  {
-    "date": "2026-03-31",
-    "title": {
-      "ja": "サイトを公開しました",
-      "en": "Site launched"
+      "ja": "地図ギャラリーとブログを作成しました。",
+      "en": "Added the map gallery and blog."
     }
   }
 ]

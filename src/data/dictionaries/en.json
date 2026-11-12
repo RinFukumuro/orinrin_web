@@ -1,56 +1,58 @@
 {
   "nav": {
     "home": "Home",
-    "portfolio": "Portfolio",
+    "portfolio": "Projects",
     "blog": "Blog",
-    "contact": "Contact",
-    "maps": "Maps"
+    "contact": "Links",
+    "maps": "Maps",
+    "menu": "Menu",
+    "skip": "Skip to content"
   },
   "hero": {
-    "greeting": "",
+    "greeting": "Rin Fukumuro / Portfolio",
     "name": "Orinrin",
     "subtitle": "",
-    "description": "Orienteering & Nature",
-    "cta": "View Portfolio"
+    "description": "Orienteering & Web Development",
+    "cta": "View Projects",
+    "code": "View GitHub"
+  },
+  "about": {
+    "title": "About",
+    "intro": "I work on orienteering and web projects. For my graduation thesis, I am implementing simulations in Python and Julia.",
+    "experience": "In a previous part-time role, I built websites with HTML, CSS, and JavaScript. My current internship focuses on AI-assisted no-code development, and I am also learning React and Next.js through personal projects.",
+    "learning": "I want to understand how software works and develop the skills to implement and improve it myself."
   },
   "portfolio": {
-    "title": "Portfolio",
-    "subtitle": "My Projects",
-    "viewProject": "View Project",
-    "viewCode": "View Code",
+    "title": "Projects",
+    "subtitle": "Web development and orienteering maps",
+    "viewProject": "View Site",
+    "viewCode": "Source Code",
+    "preview": "Enlarge image",
     "close": "Close",
-    "prev": "Previous",
-    "next": "Next"
+    "prev": "Previous image",
+    "next": "Next image"
   },
   "blog": {
     "title": "Blog",
-    "subtitle": "Tech articles & notes",
+    "subtitle": "Notes on this website and what I am learning",
     "readMore": "Read more",
-    "backToList": "Back to list"
+    "backToList": "Back to list",
+    "empty": "Articles are on the way."
   },
   "contact": {
-    "title": "Contact",
-    "subtitle": "Feel free to reach out",
-    "email": "Send Email",
-    "twitter": "Follow on X",
-    "form": {
-      "name": "Name",
-      "email": "Email",
-      "message": "Message",
-      "submit": "Send Message",
-      "sending": "Sending...",
-      "success": "Message sent successfully. Thank you!",
-      "error": "Failed to send. Please try again."
-    }
+    "title": "Links",
+    "subtitle": "Find code from my personal development projects on GitHub.",
+    "github": "Code from my personal development projects.",
+    "newTab": "(opens in a new tab)"
   },
   "maps": {
     "title": "Maps",
-    "subtitle": "Orienteering Maps",
+    "subtitle": "Orienteering maps",
     "backToHome": "Back to Home"
   },
   "news": {
-    "title": "News",
-    "subtitle": "Updates & Announcements"
+    "title": "Updates",
+    "subtitle": "Changes to this website"
   },
   "footer": {
     "rights": "All rights reserved."

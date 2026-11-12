@@ -20,11 +20,13 @@ export function getBlogSlugs(): string[] {
 }
 
 export function getBlogPost(slug: string): BlogPost | null {
+  if (!getBlogSlugs().includes(slug)) return null;
   const filePath = path.join(contentDir, `${slug}.md`);
   if (!fs.existsSync(filePath)) return null;
 
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(fileContent);
+  const [contentJa, contentEn] = content.split(/\r?\n<!-- en -->\r?\n/);
 
   return {
     slug,
@@ -34,7 +36,8 @@ export function getBlogPost(slug: string): BlogPost | null {
     description: data.description || "",
     descriptionEn: data.descriptionEn,
     tags: data.tags || [],
-    content,
+    content: contentJa,
+    contentEn,
   };
 }
 

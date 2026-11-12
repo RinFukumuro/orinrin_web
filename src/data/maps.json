@@ -7,9 +7,10 @@
       "en": "Harumi"
     },
     "description": {
-      "ja": "地図の説明文をここに記載します。",
-      "en": "Description of this map goes here."
-    }
+      "ja": "晴海エリアのオリエンテーリングマップ。詳細ページで地図全体をご覧いただけます。",
+      "en": "An orienteering map of Harumi. Open the detail page to view the full map."
+    },
+    "preview": "/images/maps/map1-preview.webp"
   },
   {
     "id": "map2",
@@ -19,9 +20,10 @@
       "en": "Yotsuya Arakicho"
     },
     "description": {
-      "ja": "地図の説明文をここに記載します。",
-      "en": "Description of this map goes here."
-    }
+      "ja": "四谷荒木町エリアのオリエンテーリングマップ。詳細ページで地図全体をご覧いただけます。",
+      "en": "An orienteering map of Yotsuya Arakicho. Open the detail page to view the full map."
+    },
+    "preview": "/images/maps/map2-preview.webp"
   },
   {
     "id": "map3",
@@ -31,8 +33,9 @@
       "en": "Roppongi Hills"
     },
     "description": {
-      "ja": "地図の説明文をここに記載します。",
-      "en": "Description of this map goes here."
-    }
+      "ja": "六本木ヒルズ周辺のオリエンテーリングマップ。詳細ページで地図全体をご覧いただけます。",
+      "en": "An orienteering map around Roppongi Hills. Open the detail page to view the full map."
+    },
+    "preview": "/images/maps/map3-preview.webp"
   }
 ]

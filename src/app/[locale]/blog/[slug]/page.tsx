@@ -24,7 +24,7 @@ export default async function BlogPostPage({
 
   if (!post) notFound();
 
-  const html = await renderMarkdown(post.content);
+  const html = await renderMarkdown(locale === "en" && post.contentEn ? post.contentEn : post.content);
   const title =
     locale === "en" && post.titleEn ? post.titleEn : post.title;
 

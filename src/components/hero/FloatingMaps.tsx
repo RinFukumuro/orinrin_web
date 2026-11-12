@@ -8,6 +8,7 @@ import type { Locale } from "@/lib/i18n/config";
 interface MapData {
   id: string;
   image: string;
+  preview: string;
   title: Record<string, string>;
 }
 
@@ -26,7 +27,7 @@ export default function FloatingMaps({ locale, maps }: FloatingMapsProps) {
   return (
     <>
       {maps.map((map, i) => {
-        const pos = positions[i];
+        const pos = positions[i % positions.length];
         const style: Record<string, string> = {};
         if (pos.top) style.top = pos.top;
         if (pos.left) style.left = pos.left;
@@ -44,12 +45,13 @@ export default function FloatingMaps({ locale, maps }: FloatingMapsProps) {
             transition={{ duration: 1.5, delay: 0.5 + i * 0.3, ease: "easeOut" }}
           >
             <Link
+              tabIndex={-1}
               href={`/${locale}/maps/${map.id}`}
               className="block rounded-xl overflow-hidden shadow-2xl shadow-emerald-900/20 border border-emerald-900/20 hover:border-emerald-500/40 transition-colors"
             >
               <div className="relative aspect-[4/3]">
                 <Image
-                  src={map.image}
+                  src={map.preview}
                   alt={map.title[locale] || map.title.ja}
                   fill
                   className="object-cover"

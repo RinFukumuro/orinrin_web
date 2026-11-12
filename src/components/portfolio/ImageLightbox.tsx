@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useCallback, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import type { ProjectImage } from "@/types/project";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -10,112 +10,52 @@ interface ImageLightboxProps {
   initialIndex: number;
   locale: Locale;
   onClose: () => void;
-  dict: {
-    close: string;
-    prev: string;
-    next: string;
-  };
+  dict: { close: string; prev: string; next: string };
 }
 
-export default function ImageLightbox({
-  images,
-  initialIndex,
-  locale,
-  onClose,
-  dict,
-}: ImageLightboxProps) {
+export default function ImageLightbox({ images, initialIndex, locale, onClose, dict }: ImageLightboxProps) {
   const [index, setIndex] = useState(initialIndex);
-
-  const prev = useCallback(() => {
-    setIndex((i) => (i - 1 + images.length) % images.length);
-  }, [images.length]);
-
-  const next = useCallback(() => {
-    setIndex((i) => (i + 1) % images.length);
-  }, [images.length]);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-    };
-    window.addEventListener("keydown", handleKey);
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const previousFocus = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    dialog.showModal();
     document.body.style.overflow = "hidden";
     return () => {
-      window.removeEventListener("keydown", handleKey);
-      document.body.style.overflow = "";
+      dialog.close();
+      document.body.style.overflow = previousOverflow;
+      if (previousFocus instanceof HTMLElement) previousFocus.focus();
     };
-  }, [onClose, prev, next]);
+  }, []);
 
   const image = images[index];
+  if (!image) return null;
+  const move = (step: number) => setIndex((current) => (current + step + images.length) % images.length);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center"
-      onClick={onClose}
-    >
-      <div
-        className="relative max-w-5xl w-full mx-4"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={onClose}
-          className="absolute -top-12 right-0 text-text-muted hover:text-text transition-colors"
-        >
-          {dict.close} &times;
-        </button>
-
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={index}
-            src={image.src}
-            alt={image.alt[locale]}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="w-full rounded-lg"
-          />
-        </AnimatePresence>
-
-        {images.length > 1 && (
-          <>
-            <button
-              onClick={prev}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-bg/60 text-text hover:bg-bg/80 flex items-center justify-center transition-colors"
-              aria-label={dict.prev}
-            >
-              &#8249;
-            </button>
-            <button
-              onClick={next}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-bg/60 text-text hover:bg-bg/80 flex items-center justify-center transition-colors"
-              aria-label={dict.next}
-            >
-              &#8250;
-            </button>
-            <div className="flex justify-center gap-2 mt-4">
-              {images.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setIndex(i)}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    i === index ? "bg-emerald-400" : "bg-text-muted/30"
-                  }`}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
-        <p className="text-center text-text-muted text-sm mt-2">
-          {image.alt[locale]}
-        </p>
+    <dialog ref={dialogRef} aria-label={image.alt[locale]} onCancel={onClose}
+      onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}
+      onKeyDown={(event) => {
+        if (event.key === "ArrowLeft") { event.preventDefault(); move(-1); }
+        if (event.key === "ArrowRight") { event.preventDefault(); move(1); }
+      }}
+      className="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none bg-black/95 text-text border-0 p-4 open:flex open:items-center open:justify-center">
+      <div className="w-full max-w-5xl">
+        <div className="flex justify-end mb-4">
+          <button type="button" onClick={onClose} className="rounded border border-emerald-700 px-4 py-2 text-emerald-300">{dict.close} ×</button>
+        </div>
+        <div className="relative h-[65dvh]">
+          <Image src={image.src} alt={image.alt[locale]} fill sizes="(max-width: 1024px) 100vw, 1024px" className="object-contain" />
+        </div>
+        <div className="flex items-center justify-center gap-6 mt-4">
+          {images.length > 1 && <button type="button" onClick={() => move(-1)} className="rounded px-4 py-2 text-emerald-300">{dict.prev}</button>}
+          <p className="text-sm text-text-muted text-center" aria-live="polite">{image.alt[locale]}{images.length > 1 && ` (${index + 1}/${images.length})`}</p>
+          {images.length > 1 && <button type="button" onClick={() => move(1)} className="rounded px-4 py-2 text-emerald-300">{dict.next}</button>}
+        </div>
       </div>
-    </motion.div>
+    </dialog>
   );
 }

@@ -12,6 +12,12 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const dict = await getDictionary(locale as Locale);
+  return { title: dict.portfolio.title, description: dict.portfolio.subtitle };
+}
+
 export default async function PortfolioPage({
   params,
 }: {
@@ -55,7 +61,7 @@ export default async function PortfolioPage({
               >
                 <div className="relative aspect-[4/3]">
                   <Image
-                    src={map.image}
+                    src={map.preview}
                     alt={map.title[locale as keyof typeof map.title] || map.title.ja}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"

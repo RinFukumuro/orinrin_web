@@ -36,6 +36,8 @@ export default function GeometricCanvas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+
     let animationId: number;
     let leaves: Leaf[] = [];
     let windLines: WindLine[] = [];
@@ -164,6 +166,7 @@ export default function GeometricCanvas() {
     };
 
     const animate = () => {
+      if (document.hidden || motionPreference.matches) return;
       time++;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -261,16 +264,25 @@ export default function GeometricCanvas() {
     windLines = Array.from({ length: windLineCount }, createWindLine);
 
     window.addEventListener("resize", resize);
+    const resume = () => {
+      cancelAnimationFrame(animationId);
+      if (!document.hidden && !motionPreference.matches) animate();
+    };
+    document.addEventListener("visibilitychange", resume);
+    motionPreference.addEventListener("change", resume);
     animate();
 
     return () => {
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", resume);
+      motionPreference.removeEventListener("change", resume);
       cancelAnimationFrame(animationId);
     };
   }, []);
 
   return (
     <canvas
+      aria-hidden="true"
       ref={canvasRef}
       className="absolute inset-0 w-full h-full"
     />

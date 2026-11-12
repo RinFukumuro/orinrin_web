@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -14,6 +14,7 @@ interface HeaderProps {
       portfolio: string;
       blog: string;
       contact: string;
+      menu: string;
     };
   };
 }
@@ -21,6 +22,23 @@ interface HeaderProps {
 export default function Header({ locale, dict }: HeaderProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen]);
 
   const otherLocale = locale === "ja" ? "en" : "ja";
   const switchedPath = pathname.replace(`/${locale}`, `/${otherLocale}`);
@@ -38,8 +56,8 @@ export default function Header({ locale, dict }: HeaderProps) {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-emerald-900/30">
-      <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <header lang={locale} className="fixed top-0 left-0 right-0 z-50 bg-bg/95 backdrop-blur-md border-b border-emerald-900/30">
+      <nav aria-label={locale === "ja" ? "メインナビゲーション" : "Main navigation"} className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <Link
           href={`/${locale}`}
           className="text-xl font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
@@ -53,6 +71,7 @@ export default function Header({ locale, dict }: HeaderProps) {
             <Link
               key={item.href}
               href={item.href}
+              aria-current={isActive(item.href) ? "page" : undefined}
               className={`text-sm transition-colors ${
                 isActive(item.href)
                   ? "text-emerald-400"
@@ -64,6 +83,8 @@ export default function Header({ locale, dict }: HeaderProps) {
           ))}
           <Link
             href={switchedPath}
+            hrefLang={otherLocale}
+            lang={otherLocale}
             className="text-sm px-3 py-1 rounded border border-emerald-700 text-emerald-400 hover:bg-emerald-900/30 transition-colors"
           >
             {otherLocale.toUpperCase()}
@@ -72,9 +93,13 @@ export default function Header({ locale, dict }: HeaderProps) {
 
         {/* Mobile menu button */}
         <button
+          ref={menuButton}
+          type="button"
           className="md:hidden text-text-muted hover:text-text p-2"
           onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
+          aria-label={dict.nav.menu}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
         >
           <svg
             className="w-6 h-6"
@@ -105,6 +130,7 @@ export default function Header({ locale, dict }: HeaderProps) {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            id="mobile-navigation"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -115,6 +141,7 @@ export default function Header({ locale, dict }: HeaderProps) {
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={isActive(item.href) ? "page" : undefined}
                   onClick={() => setMenuOpen(false)}
                   className={`text-sm transition-colors ${
                     isActive(item.href)
@@ -127,6 +154,8 @@ export default function Header({ locale, dict }: HeaderProps) {
               ))}
               <Link
                 href={switchedPath}
+                hrefLang={otherLocale}
+                lang={otherLocale}
                 onClick={() => setMenuOpen(false)}
                 className="text-sm text-emerald-400"
               >
